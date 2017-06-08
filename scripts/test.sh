@@ -7,5 +7,5 @@ which nunit-console &> /dev/null || die "nunit-console is not installed"
 mcs -debug -define:SHOPIFY_TEST -define:SHOPIFY_MONO_UNIT_TEST -recurse:'Assets/Shopify/*.cs' -recurse:'Assets/Editor/*.cs' -reference:nunit.framework.dll -target:library -out:test.dll
 
 if [ $? = 0 ] ; then
-    nunit-console test.dll
+    nunit-console -run=Shopify.Tests.TestShopify.TestProductsByIds test.dll
 fi

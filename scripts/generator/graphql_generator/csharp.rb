@@ -3,6 +3,7 @@ require 'ostruct'
 require 'fileutils'
 require_relative './csharp/scalar'
 require_relative './reformatter'
+require 'byebug'
 
 module GraphQLGenerator
   UNKNOWN_ENUM = OpenStruct.new
@@ -74,7 +75,7 @@ module GraphQLGenerator
 
     def save(path)
       path_graphql = "#{path}/GraphQL"
-    
+
       begin
         Dir.mkdir(path_graphql)
       rescue Errno::EEXIST
@@ -244,10 +245,14 @@ module GraphQLGenerator
       "CastUtils.GetEnumValue<#{enum_type_name}>(dataJSON[key])"
     end
 
-    def response_init_list(field)
+    def response_init_list(field, custom_type = nil)
       type = field.type.unwrap_non_null
 
-      "CastUtils.CastList<List<#{graph_type_to_csharp_type(type.of_type)}>>((IList) dataJSON[key])"
+      if custom_type
+        "CastUtils.CastList<List<#{custom_type}>>((IList) dataJSON[key])"
+      else
+        "CastUtils.CastList<List<#{graph_type_to_csharp_type(type.of_type)}>>((IList) dataJSON[key])"
+      end
     end
 
     def type_from_name(type_name)

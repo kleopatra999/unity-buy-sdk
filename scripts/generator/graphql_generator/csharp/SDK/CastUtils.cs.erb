@@ -28,6 +28,9 @@ namespace <%= namespace %>.SDK {
             IList outList = (IList) Activator.CreateInstance(listType);
             Type outItemType = listType.GetGenericArguments()[0];
 
+            Console.Write("outItemType: ");
+            Console.WriteLine(outItemType);
+
             foreach(object item in list) {
                 if (item == null) {
                     outList.Add(null);
@@ -44,6 +47,8 @@ namespace <%= namespace %>.SDK {
                         } catch (InvalidCastException) {
                             outList.Add(Activator.CreateInstance(outItemType, new object[] { item }));
                         }
+ //                   } else if(outItemType.IsInterface) {
+ //                       outList.Add(Activator.CreateInstance(typeof(Shopify.Unity.Product), new object[] { item }));
                     } else {
                         throw new InvalidCastException("Unhandled type of cast");
                     }

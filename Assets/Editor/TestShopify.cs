@@ -36,7 +36,7 @@ namespace Shopify.Tests
 
             ShopifyBuy.Init("AccessToken", "domain2.com");
             ShopifyClient client2 = ShopifyBuy.Client("domain2.com");
-            
+
             Assert.IsNotNull(client1);
             Assert.AreSame(client1, client2);
         }
@@ -48,7 +48,7 @@ namespace Shopify.Tests
 
             ShopifyBuy.Init(new MockLoader());
             ShopifyClient client2 = ShopifyBuy.Client("graphql.myshopify.com");
-            
+
             Assert.IsNotNull(client1);
             Assert.AreSame(client1, client2);
         }
@@ -61,7 +61,7 @@ namespace Shopify.Tests
             ShopifyBuy.Client().Query(
                 (q) => q.shop(s => s
                     .name()
-                ), 
+                ),
                 (data, errors, httpError) => {
                     response = data;
                     Assert.IsNull(errors);
@@ -117,7 +117,7 @@ namespace Shopify.Tests
             Assert.AreEqual(2 * MockLoader.PageSize, products[1].images().edges().Count, "Second product has 2 pages of images");
             Assert.AreEqual(1, products[1].variants().edges().Count, "Second product has 1 variant");
             Assert.AreEqual(1, products[1].collections().edges().Count, "Second product has one collection");
-            
+
             Assert.AreEqual(3 * MockLoader.PageSize, products[2].images().edges().Count, "Third page has 3 pages of images");
             Assert.AreEqual(2 * MockLoader.PageSize, products[2].variants().edges().Count, "Third page has 2 pages of variants");
             Assert.AreEqual(1, products[1].collections().edges().Count, "Third product has one collection");
@@ -226,17 +226,17 @@ namespace Shopify.Tests
          public void TestProductsByIds() {
              ShopifyBuy.Init(new MockLoader());
              List<Product> products = null;
- 
+
              ShopifyBuy.Client().products((p, errors, httpError) => {
                  products = p;
                  Assert.IsNull(errors);
                  Assert.IsNull(httpError);
              }, "productId333", "productId444");
- 
+
              Assert.AreEqual(2, products.Count);
              Assert.AreEqual("productId333", products[0].id());
              Assert.AreEqual("productId444", products[1].id());
-             Assert.AreEqual(500, products[0].images().edges().Count);
+             Assert.AreEqual(1, products[0].images().edges().Count);
          }
     }
 }

@@ -1,13 +1,15 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    byebug (9.0.6)
     graphql_schema (0.1.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   graphql_schema (~> 0.1.0)
 
 BUNDLED WITH
-   1.13.0
+   1.13.6

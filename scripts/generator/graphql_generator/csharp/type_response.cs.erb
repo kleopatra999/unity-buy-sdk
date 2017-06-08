@@ -84,7 +84,7 @@ namespace <%= namespace %> {
                                 <% when "INTERFACE" %>
                                     <%= response_init_interface(field) %>
                                 <% when "LIST" %>
-                                    <%= response_init_list(field) %>
+                                    <%= response_init_list(field, 'Shopify.Unity.Product') %>
                                 <% when "ENUM" %>
                                     <%= response_init_enum(field) %>
                                 <% when "SCALAR" %>
@@ -133,11 +133,14 @@ namespace <%= namespace %> {
         <%# output getters for fields %>
         <% type.fields(include_deprecated: true).each do |field| %>
             <%= docs_response_field(field) %>
-            public <%= graph_type_to_csharp_type(field.type) %> <%= escape_reserved_word(field.name) %>(<%= 'string alias = null' if field.args.any? %>) {
+
+            <% formatted_type = field.name == 'nodes' ? 'List<Product>' : graph_type_to_csharp_type(field.type) %>
+
+            public <%= formatted_type %> <%= escape_reserved_word(field.name) %>(<%= 'string alias = null' if field.args.any? %>) {
                 <% if field.args.any? %>
-                    return Get<<%= graph_type_to_csharp_type(field.type) %>>("<%= field.name %>", alias);
+                    return Get<<%= formatted_type %>>("<%= field.name %>", alias);
                 <% else %>
-                    return Get<<%= graph_type_to_csharp_type(field.type) %>>("<%= field.name %>");
+                    return Get<<%= formatted_type %>>("<%= field.name %>");
                 <% end %>
             }
         <% end %>
