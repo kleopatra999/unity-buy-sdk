@@ -1,5 +1,5 @@
 #if !SHOPIFY_MONO_UNIT_TEST
-namespace <%= namespace %>.SDK {
+namespace Shopify.BuildPipeline {
     using UnityEngine;
     using UnityEditor;
     using UnityEditor.iOS.Xcode;
@@ -7,16 +7,6 @@ namespace <%= namespace %>.SDK {
     using System;
 
     public class ShopifyIosPostProcessor {
-        /// <summary>
-        /// Perform post processing on the build to allow it to run
-        /// </summary>
-        public static void Process(string buildPath) {
-            var project = new ExtendedPBXProject(buildPath);
-            SetBuildProperties(project);
-            SetCorrectTestsTarget(project);
-            AddUiKitImportHeader(project);
-            project.Save();
-        }
 
         /// <summary>
         /// Perform post processing on the build to only run Shopify Tests
@@ -65,14 +55,14 @@ namespace <%= namespace %>.SDK {
                 Debug.Log(e.Message);
             }
         }
-
+        
         /// Adds #import <UIKit/UIKit.h> to UnityAppController.h
         private static void AddUiKitImportHeader(ExtendedPBXProject project) {
             string appControllerHeaderPath = Path.Combine(project.BuildPath, "Classes/UnityAppController.h");
 
             if (File.Exists(appControllerHeaderPath)) {
                 string[] lines = File.ReadAllLines (appControllerHeaderPath, System.Text.Encoding.UTF8);
-
+                
                 if (lines.Length != 0) {
                     lines[0] = String.Concat(lines[0], "\n#import <UIKit/UIKit.h>");
                 }

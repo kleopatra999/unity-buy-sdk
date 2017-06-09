@@ -1,5 +1,5 @@
 #if !SHOPIFY_MONO_UNIT_TEST
-namespace <%= namespace %>.SDK {
+namespace Shopify.BuildPipeline {
     using UnityEngine;
     using UnityEditor.iOS.Xcode;
     using System.IO;
